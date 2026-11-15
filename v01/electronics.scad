@@ -32,21 +32,6 @@ module led(col = "White", loc_res = 32) {
     cube([5, 5, 1.5]);
 }
 
-module buttonPTS526(col = "Silver", loc_res = 32) {
-// origin in the middle, at the bottom
-    color(col) {
-        hull() {
-            translate([-3/2, -4.8/2, 0])
-            cube([3, 4.8, 1]);
-            translate([-4.8/2, -3/2, 0])
-            cube([4.8, 3, 1]);
-        }
-        translate([0, 0, 0])
-        cylinder(d =2, h = 1.5, $fn = loc_res);
-    }
-}
-*buttonPTS526();
-
 module neopixelpanel8x8(col = "DarkGray", th = 1.6, loc_res = 32) {
     difference() {
         union() {
@@ -81,6 +66,44 @@ module neopixelpanel8x8(col = "DarkGray", th = 1.6, loc_res = 32) {
     }
 }
 *neopixelpanel8x8();
+
+module neopixelpanel8x8_cut(len = 4, dia1 = 6, m3len = 3, m3_dia = 3, loc_res = 32) {
+    *neopixelpanel8x8(loc_res = loc_res);
+    // cuts for leds
+    for(x = [0:1:7])
+        for(y = [0:1:7])
+            translate([x*8.2-(6.6-5/2), y*8.5-(6.6-5/2), 0])
+            cylinder(d = dia1, h = len, $fn = loc_res);
+    // this hole is origin
+    translate([0, 0, 0])
+    cylinder(d = m3_dia, h = m3len, $fn = loc_res);
+    translate([46.3+3, 0, 0])
+    cylinder(d = m3_dia, h = m3len, $fn = loc_res);
+    translate([0, 22.5+3, 0])
+    cylinder(d = m3_dia, h = m3len, $fn = loc_res);
+    translate([46.3+3, 22.5+3, 0])
+    cylinder(d = m3_dia, h = m3len, $fn = loc_res);
+    translate([0, 48.0+3, 0])
+    cylinder(d = m3_dia, h = m3len, $fn = loc_res);
+    translate([46.3+3, 48.0+3, 0])
+    cylinder(d = m3_dia, h = m3len, $fn = loc_res);
+}
+*neopixelpanel8x8_cut();
+
+module buttonPTS526(col = "Silver", loc_res = 32) {
+// origin in the middle, at the bottom
+    color(col) {
+        hull() {
+            translate([-3/2, -4.8/2, 0])
+            cube([3, 4.8, 1]);
+            translate([-4.8/2, -3/2, 0])
+            cube([4.8, 3, 1]);
+        }
+        translate([0, 0, 0])
+        cylinder(d =2, h = 1.5, $fn = loc_res);
+    }
+}
+*buttonPTS526();
 
 module esp32c3supermini(col = "DarkGray", th = 1.6, loc_res = 32) {
     difference() {
@@ -146,4 +169,4 @@ module dfplayer_mini(col = "DarkGray", th = 1.6, loc_res = 32) {
                 cube(2.54);
             }
 }
-dfplayer_mini();
+*dfplayer_mini();
