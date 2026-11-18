@@ -37,6 +37,18 @@ module esp32c3_lighthouse_main(col = "Green", th = 1.6, loc_res = 32) {
 }
 *esp32c3_lighthouse_main();
 
+module esp32c3_lighthouse_main_hole_cut(len = 10, loc_res = 32) {
+    // holes
+    translate([+81/2, 2.5, 0])
+    cylinder(r = 1.6, h = len, $fn = loc_res);
+    translate([-81/2, 2.5, 0])
+    cylinder(r = 1.6, h = len, $fn = loc_res);
+    translate([+81/2, 2.5+18, 0])
+    cylinder(r = 1.6, h = len, $fn = loc_res);
+    translate([-81/2, 2.5+18, 0])
+    cylinder(r = 1.6, h = len, $fn = loc_res);
+}
+
 module esp32c3_lighthouse_buttons(col = "Green", th = 1.6, loc_res = 32) {
     color(col)
     difference() {

@@ -235,6 +235,124 @@ module case01v100(show = 1, loc_res = 32) {
         esp32c3_lighthouse_sensors();
     }
 }
-*case01v100(show = 0);
 
-case01v100(show = 0); // print 2 x
+module case02v100(show = 1, loc_res = 32) {
+    difference() 
+    {
+        // case
+        union() {
+            
+            hull() 
+            {
+                // top
+                translate([-(29+4.15), -2, 9])
+                cube([2*(29+4.15), 138+2*2, 1]);
+                translate([-(29+2.2), -4, 9])
+                cube([2*(29+2.2), 138+2*4, 1]);
+                // botton
+                translate([-23, -4, -3])
+                cube([49, 138+2*4, 1]);
+                translate([-25, -2, -3])
+                cube([49+2+1, 138+2*2, 1]);
+            }
+            
+            // notch to match top
+            translate([-(27+3.1-2), -3, 10])
+            cube([2*(27+3.1-2), 138+2*3, 0.8]);
+        }    
+        // inner cutout
+        union() {
+            hull() {
+                translate([-(27+3.1+1), -2, 10-2])
+                cube([2*(27+3.1+1), 138+2*2, 4]);
+                translate([-23, -2, -2])
+                cube([49, 138+2*2, 20]);
+            }
+        }
+        // M3 screws between case01 (top) and case 02 (bottom)
+        union() {
+            // M3 cuts
+            translate([-20, 0.5, -4]) {
+                cylinder(d = 3.2, h = 10, $fn = loc_res);
+                hull() {
+                    cylinder(d = 3.2, h = 1+2, $fn = loc_res);
+                    cylinder(d = 6.5, h = 1.2, $fn = loc_res);
+                }
+            }
+            translate([-20, 137.5, -4]) {
+                cylinder(d = 3.2, h = 10, $fn = loc_res);
+                hull() {
+                    cylinder(d = 3.2, h = 1+2, $fn = loc_res);
+                    cylinder(d = 6.5, h = 1.2, $fn = loc_res);
+                }
+            }
+            translate([00, 0.5, -4]) {
+                cylinder(d = 3.2, h = 10, $fn = loc_res);
+                hull() {
+                    cylinder(d = 3.2, h = 1+2, $fn = loc_res);
+                    cylinder(d = 6.5, h = 1.2, $fn = loc_res);
+                }
+            }
+            translate([00, 137.5, -4]) {
+                cylinder(d = 3.2, h = 10, $fn = loc_res);
+                hull() {
+                    cylinder(d = 3.2, h = 1+2, $fn = loc_res);
+                    cylinder(d = 6.5, h = 1.2, $fn = loc_res);
+                }
+            }
+            translate([20, 0.5, -4]) {
+                cylinder(d = 3.2, h = 10, $fn = loc_res);
+                hull() {
+                    cylinder(d = 3.2, h = 1+2, $fn = loc_res);
+                    cylinder(d = 6.5, h = 1.2, $fn = loc_res);
+                }
+            }
+            translate([20, 137.5, -4]) {
+                cylinder(d = 3.2, h = 10, $fn = loc_res);
+                hull() {
+                    cylinder(d = 3.2, h = 1+2, $fn = loc_res);
+                    cylinder(d = 6.5, h = 1.2, $fn = loc_res);
+                }
+            }
+        }
+        // cut open USB-C
+        hull() {
+            translate([14, 74, 3.2+2])
+            rotate([0, 90, 0])
+            cylinder(d = 4.5, h = 20, $fn = loc_res);
+            translate([14, 74-6, 3.2+2])
+            rotate([0, 90, 0])
+            cylinder(d = 4.5, h = 20, $fn = loc_res);
+        }
+        // cut open for micro sdcard
+        translate([14, 40, 1.4+2])
+        cube([20, 13, 2]);
+        
+        translate([26, (138+2*2)/2, -4])
+        rotate([0, 0, 90])
+        esp32c3_lighthouse_main_hole_cut();
+        
+        // cut bottom open
+        for(n = [-6:1:7])
+        translate([0, (138+2*2)/2-n*9, -6])
+        hull() {
+            translate([-20, 0, 0])
+            cylinder(d = 2, h = 10, $fn = loc_res);
+            translate([+23, 0, 0])
+            cylinder(d = 2, h = 10, $fn = loc_res);
+        }
+    }
+    
+    
+    if(show) {
+        translate([26, (138+2*2)/2, -2])
+        rotate([0, 0, 90])
+        esp32c3_lighthouse_main();
+    }
+}
+*case01v100(show = 0);
+case02v100(show = 0);
+
+*button(); // print 3 x
+*case01v100(show = 0); // print 2 x
+*case02v100(show = 0); // print 1 x
